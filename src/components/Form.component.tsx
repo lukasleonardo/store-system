@@ -3,6 +3,7 @@ import Button from './Button.component'
 
 
 
+
 const Form = (props:any) => {
   return (
     <div className="w-96 h-2/3 min-w-64 bg-white p-4 rounded-lg shadow-lg flex flex-col place-items-center ">
@@ -15,6 +16,7 @@ const Form = (props:any) => {
             <Button className={'bg-gradient-to-r from-sky-500 via-sky-700 to-indigo-500 p-1 mt-10 rounded-md w-4/5 '} name={'Entrar'} type={'submit'}/>
           </form>
             <span className='pt-3 mb-3'>Crie sua conta <a className='font-semibold underline hover:font-bold' href="/signup">aqui</a></span>
+            <Button className={'mt-200 bg-white p-1 border-solid border-2 hover:shadow-lg rounded-md w-4/5'} key={props.key} onClick={props.onClick} type={"button"} name='Login with Google'/>
         </div> 
   )
 }
