@@ -1,16 +1,19 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { signOut, useSession } from 'next-auth/react'
 
 const Nav = () => {
-  const isUserLoggedIn=false;
+  const isUserLoggedIn=true;
+  const {data:session} = useSession()
+  const [toggle, setToggle] = useState(false)
+
   return (
-    <nav className='bg-white gap-5 w-full flex justify-between mb-16 p-3 rounded-b-md'>
+    <nav className='navbar'>
       <div className='gap-5 flex rounded-b-md'>
         <Link className='flex gap-2 items-center' href={'/'}>
           <Image
-          className='bg-white'
           src='/assets/images/icon.svg'
           alt='logo img'
           width={60}
@@ -23,11 +26,31 @@ const Nav = () => {
           <Link className='flex font-bold hover:font-extrabold text-xl items-center'  href={'/about'}>About</Link>
       </div>
         {
-          isUserLoggedIn?(
-            <div className='flex items-center'>
-              <button className='flex gap-2 font-extrabold text-xl items-center content-center' type="button">Sign Out<Image src='/assets/images/logout.svg'alt='logo img'
-        width={40}
-        height={40}/></button>
+          session?.user ? (
+            <div className='flex col items-center'>
+              
+              <div className='flex border-solid border-2 rounded-full border-black'>
+                <Image
+                src='/assets/images/user.svg'
+                alt='logo img'
+                width={60}
+                height={60}
+                onClick={()=>setToggle(!toggle)}
+                />
+              </div>
+              {toggle &&
+                (
+                  <div className='dropdown border-b-2 border-x-2 border-outline '>
+                    <Link href={'/'} onClick={()=>setToggle(false)} >my profile</Link>
+                    <Link href={'/'} onClick={()=>setToggle(false)}>Cart</Link>
+                    <Link href={'/'} onClick={()=>setToggle(false)}>Settigns</Link>
+                    <button className='flex p-2 gap-2 font-extrabold text-xl items-center border-solid border-2 border-black rounded-full' type="button" onClick={()=>{setToggle(false); signOut()}}>Sign Out<Image src='/assets/images/logout.svg'alt='logo img'
+                    width={20}
+                    height={20}/></button> 
+                  </div>
+                )
+              }
+              
             </div>
           ):(
             <div className='flex gap-3 items-center'>
